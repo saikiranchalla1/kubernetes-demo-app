@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql
+        volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: ebs
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+              secretKeyRef:
+                key: password
+                name: db-secrets
+        - name: MYSQL_DATABASE
+          value: book_manager
+        - name: MYSQL_PASSWORD
+          valueFrom:
+              secretKeyRef:
+                key: password
+                name: db-secrets
+        ports:
+          - containerPort: 3306
+      volumes:
+        - name: ebs
+          awsElasticBlockStore:
+            volumeID: vol-0eec2839a71728b53
+            fsType: ext4

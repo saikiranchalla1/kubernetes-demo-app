@@ -6,3 +6,6 @@ docker exec -it docker-mysql bash;
 docker exec -i docker-mysql mysql -uroot -proot book_manager < sql/book_manager.sql
 
 # https://www.cloudtechnologyexperts.com/kubeadm-on-aws/
+
+
+sysctl net.bridge.bridge-nf-call-iptables=1 net.bridge.bridge-nf-call-iptables = 1

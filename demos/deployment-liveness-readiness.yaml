@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  selector:
+    matchLabels:
+      app: book-manager
+  template:
+    metadata:
+      labels:
+        app: book-manager
+    spec:
+      containers:
+      - name: myapp
+        image: saikiranchalla/book-manager
+        livenessProbe:
+          httpGet:
+            path: /book
+            port: 8080
+          initialDelaySeconds: 15
+          timeoutSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /book
+            port: 8080
+          initialDelaySeconds: 15
+          timeoutSeconds: 30
+        env:
+        - name: spring.datasource.url
+          value: jdbc:mysql://mysql.default.svc.cluster.local:3306/book_manager
+        ports:
+          - containerPort: 8080

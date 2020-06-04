@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: book-manager
   labels:
-    name: book-manager
+    app: book-manager
 spec:
   containers:
   - name: myapp
@@ -11,7 +11,9 @@ spec:
     env:
     - name: spring.datasource.url
       value: jdbc:mysql://mysql.default.svc.cluster.local:3306/book_manager
-    - name: server.port
-      value: "8080"
+    - name: spring.datasource.username
+      value: "root"
+    - name: spring.datasource.password
+      value: "root"
     ports:
       - containerPort: 8080
